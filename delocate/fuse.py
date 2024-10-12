@@ -32,6 +32,7 @@ from .tools import (
     lipo_fuse,
     open_rw,
     zip2dir,
+    _is_macho_file,
 )
 from .wheeltools import rewrite_record
 
@@ -122,7 +123,7 @@ def fuse_trees(
                 _copyfile(from_path, to_path)
             elif cmp_contents(from_path, to_path):
                 pass
-            elif ext in lib_exts:
+            elif ext in lib_exts or _is_macho_file(from_path):
                 # existing lib that needs fuse
                 lipo_fuse(from_path, to_path, to_path)
             else:
